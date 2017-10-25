@@ -8,3 +8,9 @@ let ninja = containerView.ninja
 
 // Show the container view in the Assistant Editor
 PlaygroundPage.current.liveView = containerView
+
+// Animating the ninja from left to right.
+UIViewPropertyAnimator(duration: 1, curve: .easeInOut) {
+    containerView.moveNinjaToBottomRight()
+}.startAnimation()
+
