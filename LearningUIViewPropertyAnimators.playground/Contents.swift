@@ -9,8 +9,37 @@ let ninja = containerView.ninja
 // Show the container view in the Assistant Editor
 PlaygroundPage.current.liveView = containerView
 
+//// Animating the ninja from left to right.
+//UIViewPropertyAnimator(duration: 1, curve: .easeInOut) {
+//    containerView.moveNinjaToBottomRight()
+//}.startAnimation()
+
+let animator = UIViewPropertyAnimator(duration: 1, curve: .easeInOut)
+
 // Animating the ninja from left to right.
-UIViewPropertyAnimator(duration: 1, curve: .easeInOut) {
+animator.addAnimations {
     containerView.moveNinjaToBottomRight()
-}.startAnimation()
+}
+
+// Adding a second animation to the existing animator.
+animator.addAnimations {
+    ninja.alpha = 0
+}
+
+// Completion handlers can also be chained.
+animator.addCompletion {
+    _ in
+    print("Animation completed")
+}
+
+animator.addCompletion {
+    position in
+    switch position {
+    case .end: print("Completion handler called at end of animation")
+    case .current: print("Completion handler called mid-way through animation")
+    case .start: print("Completion handler called  at start of animation")
+    }
+}
+
+animator.startAnimation()
 
