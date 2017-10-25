@@ -1,5 +1,10 @@
-//: Playground - noun: a place where people can play
-
 import UIKit
+import PlaygroundSupport
 
-var str = "Hello, playground"
+// Container for our animating view
+let containerView = NinjaContainerView(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
+
+let ninja = containerView.ninja
+
+// Show the container view in the Assistant Editor
+PlaygroundPage.current.liveView = containerView
