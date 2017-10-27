@@ -66,7 +66,7 @@ scrubber.addTarget(eventListener, action: #selector(EventListener.handleEvent), 
  
  */
 
-/* 4. Reversing */
+/* 4. Reversing
 let animator = UIViewPropertyAnimator(duration: 2, curve: .easeIn)
 
 animator.addAnimations {
@@ -96,3 +96,16 @@ button.addTarget(listener, action: #selector(EventListener.handleEvent), for: .t
 containerView.addSubview(button)
 
 animator.startAnimation()
+*/
+
+/* 5. Time Curves */
+let bezierParams = UICubicTimingParameters(controlPoint1: CGPoint(x: 0.05, y: 0.95), controlPoint2: CGPoint(x: 0.15, y: 0.95))
+
+let animator = UIViewPropertyAnimator(duration: 4, timingParameters: bezierParams)
+
+animator.addAnimations {
+    containerView.moveNinjaToBottomRight()
+}
+
+animator.startAnimation()
+
