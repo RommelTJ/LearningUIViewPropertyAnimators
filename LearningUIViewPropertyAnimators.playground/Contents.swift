@@ -45,8 +45,7 @@ animator.addCompletion {
 animator.startAnimation()
 */
 
-/* 3. Scrubbing and Reversing */
-
+/* 3. Scrubbing
 let animator = UIViewPropertyAnimator(duration: 5, curve: .easeIn)
 
 // Add our first animation block.
@@ -64,3 +63,36 @@ eventListener.eventFired = {
 }
 
 scrubber.addTarget(eventListener, action: #selector(EventListener.handleEvent), for: .valueChanged)
+ 
+ */
+
+/* 4. Reversing */
+let animator = UIViewPropertyAnimator(duration: 2, curve: .easeIn)
+
+animator.addAnimations {
+    UIView.animateKeyframes(withDuration: animator.duration, delay: 0, options: [.calculationModeCubic], animations: {
+        UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5, animations: {
+            ninja.center = containerView.center
+        })
+        UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5, animations: {
+            containerView.moveNinjaToBottomRight()
+        })
+    }, completion: nil)
+}
+
+let button = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 30)))
+button.setTitle("Reverse", for: .normal)
+button.setTitleColor(.black, for: .normal)
+button.setTitleColor(.gray, for: .highlighted)
+
+let listener = EventListener()
+listener.eventFired = {
+    // Note: This only works if the state of the animation is still
+    // active (i.e. the animation is currently in-progress).
+    animator.isReversed = true
+}
+
+button.addTarget(listener, action: #selector(EventListener.handleEvent), for: .touchUpInside)
+containerView.addSubview(button)
+
+animator.startAnimation()
