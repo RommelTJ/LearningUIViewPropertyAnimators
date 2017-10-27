@@ -9,11 +9,12 @@ let ninja = containerView.ninja
 // Show the container view in the Assistant Editor
 PlaygroundPage.current.liveView = containerView
 
-//// Animating the ninja from left to right.
+//// 1. Animating the ninja from left to right.
 //UIViewPropertyAnimator(duration: 1, curve: .easeInOut) {
 //    containerView.moveNinjaToBottomRight()
 //}.startAnimation()
 
+/* 2. Chaining animations
 let animator = UIViewPropertyAnimator(duration: 1, curve: .easeInOut)
 
 // Animating the ninja from left to right.
@@ -42,4 +43,24 @@ animator.addCompletion {
 }
 
 animator.startAnimation()
+*/
 
+/* 3. Scrubbing and Reversing */
+
+let animator = UIViewPropertyAnimator(duration: 5, curve: .easeIn)
+
+// Add our first animation block.
+animator.addAnimations {
+    containerView.moveNinjaToBottomRight()
+}
+
+// Add a scrubber
+let scrubber = UISlider(frame: CGRect(x: 0, y: 0, width: containerView.frame.width, height: 50))
+containerView.addSubview(scrubber)
+
+let eventListener = EventListener()
+eventListener.eventFired = {
+    animator.fractionComplete = CGFloat(scrubber.value)
+}
+
+scrubber.addTarget(eventListener, action: #selector(EventListener.handleEvent), for: .valueChanged)
